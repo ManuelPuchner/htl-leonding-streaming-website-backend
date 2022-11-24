@@ -11,15 +11,18 @@ datasource db {
 }
 
 model Member {
-  id   Int    @id @default(autoincrement())
-  name String
-  tags Tag[]
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  tags        Tag[]
+  image       String
 }
 
 model Tag {
   id      Int      @id @default(autoincrement())
   name    String
   members Member[]
+  color   String
 }
 
 model AdminPassword {
