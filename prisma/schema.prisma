@@ -29,3 +29,10 @@ model AdminPassword {
   id       Int    @id @default(autoincrement())
   password String
 }
+
+model Team {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String?
+  image       String?
+}
