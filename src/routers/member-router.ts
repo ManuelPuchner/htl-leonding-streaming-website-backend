@@ -1,6 +1,6 @@
 import { Member } from "@prisma/client";
 import express from "express";
-import { getAllMembers, getMemberById, createMember, editMember} from "../repos/member-repo";
+import { getAllMembers, getMemberById, createMember, editMember, deleteMember} from "../repos/member-repo";
 export const taskRouter = express.Router();
 
 // return all tasks
@@ -34,4 +34,14 @@ taskRouter.put("/:id", async function (request, response) {
     const { name, tags } = request.body;
     const editedMember = await editMember( id, name, tags);
     response.status(200).json(editedMember);
-})
+});
+
+taskRouter.delete("/:id", async function (request, response) {
+    const id: number = Number(request.params);
+    if( id === undefined){
+        response.sendStatus(400);
+        return;
+    }
+    const deletedmember : Member = await deleteMember(id);
+    response.status(200).json(deletedmember);
+});

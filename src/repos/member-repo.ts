@@ -50,3 +50,14 @@ export async function editMember(
   });
   return member;
 }
+
+export async function deleteMember(id: number): Promise<Member> {
+  //TODO: validation for member
+  let member = await prisma.member.delete({
+    where: {
+      id: id,
+    },
+  });
+
+  return member;
+}
