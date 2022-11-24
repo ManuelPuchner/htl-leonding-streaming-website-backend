@@ -9,7 +9,7 @@ export async function getAllMembers(): Promise<Member[]> {
 }
 
 export async function getMemberById(id: number): Promise<Member> {
-  let member = await prisma.member.findUnique({
+  let member = await prisma.member.findFirst({
     where: {
       id: id,
     },
@@ -18,15 +18,17 @@ export async function getMemberById(id: number): Promise<Member> {
   return member;
 }
 
-export async function createMember(name: string, tagIds: number[]): Promise<Member> {
+export async function createMember(name: string, description: string, tagIds: number[], image: string): Promise<Member> {
   const tags: Tag[] = await addTagToMember(tagIds);
 
   let member = await prisma.member.create({
     data: {
       name: name,
+      description: description, 
       tags: {
         connect: tags,
       },
+      image: image,
     },
   });
 
@@ -36,11 +38,12 @@ export async function createMember(name: string, tagIds: number[]): Promise<Memb
 export async function editMember(
   id: number,
   name: string,
+  description: string,
   tagIds: number[],
-  description: string
+  image: string
 ): Promise<Member> {
 
-  let tags = await addTagToMember(tagIds);
+  let tags: Tag[] = await addTagToMember(tagIds);
   let member = await prisma.member.update({
     where: {
       id: id,
@@ -51,7 +54,7 @@ export async function editMember(
       tags: {
         connect: tags,
       },
-      
+      image: image,
     },
   });
   return member;

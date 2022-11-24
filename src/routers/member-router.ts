@@ -26,8 +26,8 @@ taskRouter.get("/:id", async function (request, response) {
 });
 
 taskRouter.post("/", async function (request, response) {
-  const { name,description, tagsIds } = request.body;
-  const newMember = await createMember(name, tagsIds, description);
+  const { name, description, tagsIds, image } = request.body;
+  const newMember = await createMember(name, description, tagsIds, image);
   response.status(200).json(newMember);
 });
 
@@ -38,7 +38,7 @@ taskRouter.put("/:id", async function (request, response) {
     response.sendStatus(400);
     return;
   }
-  const { name, tags, description} = request.body;
+  const { name, description, tags, image} = request.body;
   if(typeof name !== "string" || name !== undefined || name.trim().length === 0) {
     response.sendStatus(400);
     return;
@@ -51,7 +51,7 @@ taskRouter.put("/:id", async function (request, response) {
     }
   }
 
-  const member: Member | undefined = await editMember(id, name, tags, description);
+  const member: Member | undefined = await editMember(id, name, description, tags, image);
   if (member === undefined) {
     response.sendStatus(404);
     return;
