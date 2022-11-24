@@ -17,8 +17,7 @@ export async function getMemberById(id: number): Promise<Member> {
   return member;
 }
 
-export async function createMember(name: any, tags: any): Promise<Member> {
-  //TODO: validation for member
+export async function createMember(name: string, tags: Tag[]): Promise<Member> {
   let member = await prisma.member.create({
     data: {
       name: name,
@@ -33,8 +32,8 @@ export async function createMember(name: any, tags: any): Promise<Member> {
 
 export async function editMember(
   id: number,
-  name: any,
-  tags: any
+  name: string,
+  tags: Tag[]
 ): Promise<Member> {
   //TODO: validation for member
   let member = await prisma.member.update({
