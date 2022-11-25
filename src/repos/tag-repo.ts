@@ -31,7 +31,7 @@ export async function postTag(name: string, color: string): Promise<Tag> {
   return tag;
 }
 
-//Todo: editMember
+//TODO: editTag
 
 export async function deleteTag(id: number): Promise<Tag> {
   const tag: Promise<Tag> = prisma.tag.delete({

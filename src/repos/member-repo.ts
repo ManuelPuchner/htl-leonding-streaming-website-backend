@@ -42,7 +42,6 @@ export async function editMember(
   tagIds: number[],
   image: string
 ): Promise<Member> {
-
   let tags: Tag[] = await addTagToMember(tagIds);
   let member = await prisma.member.update({
     where: {

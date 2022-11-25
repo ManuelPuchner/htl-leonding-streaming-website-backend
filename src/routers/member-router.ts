@@ -27,6 +27,7 @@ memberRouter.get("/:id", async function (request, response) {
 
 memberRouter.post("/", async function (request, response) {
   const { name, description, tagsIds, image } = request.body;
+  //TODO: validation createMember
   const newMember = await createMember(name, description, tagsIds, image);
   response.status(200).json(newMember);
 });
@@ -39,7 +40,8 @@ memberRouter.put("/:id", async function (request, response) {
     return;
   }
   const { name, description, tags, image} = request.body;
-  if(typeof name !== "string" || name !== undefined || name.trim().length === 0) {
+  if(typeof name !== "string" || name === undefined || name.trim().length === 0
+  && description === undefined || description.trim().length === 0){
     response.sendStatus(400);
     return;
   }
