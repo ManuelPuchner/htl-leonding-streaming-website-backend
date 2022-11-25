@@ -33,27 +33,36 @@ memberRouter.post("/", async function (request, response) {
 });
 
 memberRouter.put("/:id", async function (request, response) {
-  
   const id: number = Number(request.params);
   if (id === undefined) {
     response.sendStatus(400);
     return;
   }
-  const { name, description, tags, image} = request.body;
-  if(typeof name !== "string" || name === undefined || name.trim().length === 0
-  && description === undefined || description.trim().length === 0){
+  const { name, description, tags, image } = request.body;
+  if (
+    typeof name !== "string" ||
+    name === undefined ||
+    (name.trim().length === 0 && description === undefined) ||
+    description.trim().length === 0
+  ) {
     response.sendStatus(400);
     return;
   }
 
   for (const tag of tags) {
-    if (typeof tag!== "number" || tag !== undefined) {
+    if (typeof tag !== "number" || tag !== undefined) {
       response.sendStatus(400);
       return;
     }
   }
 
-  const member: Member | undefined = await editMember(id, name, description, tags, image);
+  const member: Member | undefined = await editMember(
+    id,
+    name,
+    description,
+    tags,
+    image
+  );
   if (member === undefined) {
     response.sendStatus(404);
     return;
@@ -69,4 +78,4 @@ memberRouter.delete("/:id", async function (request, response) {
   }
   const deletedmember: Member = await deleteMember(id);
   response.status(200).json(deletedmember);
-});  
+});

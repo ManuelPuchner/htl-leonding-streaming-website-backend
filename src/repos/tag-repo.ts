@@ -13,8 +13,8 @@ export async function getTagById(id: number): Promise<Tag> {
       id: id,
     },
     include: {
-          members: true,
-    }
+      members: true,
+    },
   });
 
   return tag;

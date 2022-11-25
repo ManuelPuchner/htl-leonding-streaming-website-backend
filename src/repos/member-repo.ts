@@ -18,13 +18,18 @@ export async function getMemberById(id: number): Promise<Member> {
   return member;
 }
 
-export async function createMember(name: string, description: string, tagIds: number[], image: string): Promise<Member> {
+export async function createMember(
+  name: string,
+  description: string,
+  tagIds: number[],
+  image: string
+): Promise<Member> {
   const tags: Tag[] = await addTagToMember(tagIds);
 
   let member = await prisma.member.create({
     data: {
       name: name,
-      description: description, 
+      description: description,
       tags: {
         connect: tags,
       },
