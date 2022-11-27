@@ -52,11 +52,12 @@ export async function editMember(
     where: {
       id: id,
     },
+    
     data: {
       name: name,
       description: description,
       tags: {
-        connect: tags,
+        connect: tags,  
       },
       image: image,
     },
@@ -75,15 +76,21 @@ export async function deleteMember(id: number): Promise<Member> {
 }
 
 async function addTagToMember(tagIds: number[]): Promise<Tag[]> {
+  console.log(tagIds);
+  
   let result: Tag[] = [];
-  for (const tagId of tagIds) {
+  for (let i = 0; i < tagIds.length; i++) {
     {
-      if (!checkIfTagExists(tagId)) {
+      if (!checkIfTagExists(tagIds[i])) {
         return null;
       } else {
-        result.push(await getTagById(tagId));
+        result.push(await getTagById(tagIds[i]));
       }
+      console.log(tagIds[i]);
     }
+
+    console.log(result);
+    
     return result;
   }
 }

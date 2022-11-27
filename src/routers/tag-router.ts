@@ -11,7 +11,7 @@ tagRouter.get("/", async (req, res) => {
 
 tagRouter.get("/:id", async (req, res) => {
   const tagId = Number(req.params.id);
-  if (tagId === undefined || tagId === NaN || tagId === null) {
+  if (tagId === undefined || tagId === null) {
     res.status(400).json({
       message: "Invalid tag id",
     });
@@ -42,7 +42,7 @@ tagRouter.post("/", async (req, res) => {
 
 tagRouter.put("/:id", async (req, res) => {
   const tagId = Number(req.params.id);
-  if (tagId === undefined || tagId === NaN || tagId === null) {
+  if (tagId === undefined || tagId === null) {
     res.status(400).json({
       message: "Invalid tag id",
     });

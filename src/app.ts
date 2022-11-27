@@ -1,7 +1,7 @@
 import express from "express";
 import { join } from "path";
 import * as dotenv from "dotenv";
-import { adminRouter, imageRouter, memberRouter, tagRouter } from "./routers";
+import { adminRouter, memberRouter, tagRouter } from "./routers";
 
 dotenv.config({ path: join(__dirname, "../.env") });
 
@@ -12,7 +12,7 @@ const PORT = 3000;
 app.use(express.json());
 app.use("/api/admin", adminRouter);
 app.use("/api/member", memberRouter);
-app.use("/api/image", imageRouter);
+// app.use("/api/image", imageRouter);
 app.use("/api/tag", tagRouter);
 app.use(
   express.static(

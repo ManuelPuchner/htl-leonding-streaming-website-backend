@@ -27,7 +27,28 @@ memberRouter.get("/:id", async function (request, response) {
 
 memberRouter.post("/", async function (request, response) {
   const { name, description, tagsIds, image } = request.body;
-  //TODO: validation createMember
+  console.log(name, description, tagsIds, image);
+  if (
+    typeof name !== "string" ||
+    name === undefined ||
+    (name.trim().length === 0 && description === undefined) ||
+    description.trim().length === 0
+  ) {
+    response.sendStatus(400);
+    return;
+  }
+  if(tagsIds === undefined){
+    response.sendStatus(400);
+    return;
+  }
+
+  for (const tag of tagsIds) {
+    if (typeof tag !== "number" || tag === undefined) {
+      console.log("is NaN", tag);
+      response.sendStatus(400);
+      return;
+    }
+  }
   const newMember = await createMember(name, description, tagsIds, image);
   response.status(200).json(newMember);
 });
