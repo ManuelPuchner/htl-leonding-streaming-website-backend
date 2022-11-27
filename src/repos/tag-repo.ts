@@ -58,6 +58,13 @@ export async function deleteTag(id: number): Promise<Tag> {
 }
 
 export async function checkIfTagExists(id: number): Promise<boolean> {
+  console.log(!!prisma.tag.findFirst({
+    where: {
+      id: id,
+    },
+  })
+  );
+  
   return !!prisma.tag.findFirst({
     where: {
       id: id,

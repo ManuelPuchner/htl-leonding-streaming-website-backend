@@ -1,4 +1,5 @@
 import { Member, Tag } from "@prisma/client";
+import { json } from "stream/consumers";
 import prisma from "../prisma";
 import { checkIfTagExists, getTagById } from "./tag-repo";
 
@@ -24,17 +25,31 @@ export async function createMember(
   tagIds: number[],
   image: string
 ): Promise<Member> {
-  const tags: Tag[] = await addTagToMember(tagIds);
+
+  for(const tagId of tagIds) {
+    
+    if(!await checkIfTagExists(tagId)){
+      throw new Error( tagId + " does not exist");
+    }
+
+  }
 
   let member = await prisma.member.create({
     data: {
       name: name,
       description: description,
       tags: {
-        connect: tags,
-      },
+        connect: 
+          tagIds.map(tagId => {
+            return {
+              id: tagId,
+            }})
+          },
       image: image,
     },
+    include: {
+      tags: true,
+    }
   });
 
   return member;
@@ -47,7 +62,14 @@ export async function editMember(
   tagIds: number[],
   image: string
 ): Promise<Member> {
-  let tags: Tag[] = await addTagToMember(tagIds);
+  for(const tagId of tagIds) {
+    
+    if(await checkIfTagExists(tagId)){
+      return null;
+    }
+
+  }
+
   let member = await prisma.member.update({
     where: {
       id: id,
@@ -57,7 +79,10 @@ export async function editMember(
       name: name,
       description: description,
       tags: {
-        connect: tags,  
+        connect: tagIds.map(tagId => {
+          return {
+            id: tagId,
+          }})
       },
       image: image,
     },

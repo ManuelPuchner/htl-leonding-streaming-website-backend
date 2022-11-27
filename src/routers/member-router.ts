@@ -49,7 +49,14 @@ memberRouter.post("/", async function (request, response) {
       return;
     }
   }
-  const newMember = await createMember(name, description, tagsIds, image);
+
+  let newMember: Member = null
+  try {
+    newMember = await createMember(name, description, tagsIds, image);
+  } catch (error) {
+    response.status(405).send("invalid tag" + error.message);
+  }
+  
   response.status(200).json(newMember);
 });
 
