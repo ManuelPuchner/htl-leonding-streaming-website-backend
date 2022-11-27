@@ -84,18 +84,14 @@ memberRouter.put("/:id", async function (request, response) {
     }
   }
 
-  const member: Member | undefined = await editMember(
-    id,
-    name,
-    description,
-    tags,
-    image
-  );
-  if (member === undefined) {
-    response.sendStatus(404);
-    return;
+  let newMember: Member = null
+  try {
+    newMember = await editMember(id, name, description, tags, image);
+  } catch (error) {
+    response.status(405).send("invalid tag" + error.message);
   }
-  response.status(200).json(member);
+  
+  response.status(200).json(newMember);
 });
 
 memberRouter.delete("/:id", async function (request, response) {
