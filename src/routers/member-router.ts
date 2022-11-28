@@ -1,5 +1,6 @@
 import { Member } from "@prisma/client";
 import express from "express";
+import { cookieJwtAuth } from "../middleware/cookie-jwt-auth";
 import {
   getAllMembers,
   getMemberById,
@@ -10,12 +11,12 @@ import {
 export const memberRouter = express.Router();
 
 // return all tasks
-memberRouter.get("/", async function (request, response) {
+memberRouter.get("/", cookieJwtAuth,async function (request, response) {
   const mebers: Member[] = await getAllMembers();
   response.status(200).json(mebers);
 });
 
-memberRouter.get("/:id", async function (request, response) {
+memberRouter.get("/:id", cookieJwtAuth ,async function (request, response) {
   const id: number = Number(request.params.id);
   const member: Member | undefined = await getMemberById(id);
   if (member === undefined) {
@@ -25,7 +26,7 @@ memberRouter.get("/:id", async function (request, response) {
   response.status(200).json(member);
 });
 
-memberRouter.post("/", async function (request, response) {
+memberRouter.post("/", cookieJwtAuth ,async function (request, response) {
   const { name, description, tagIds, image } = request.body;
   console.log(name, description, tagIds, image);
 
@@ -43,7 +44,7 @@ memberRouter.post("/", async function (request, response) {
   response.status(200).json(newMember);
 });
 
-memberRouter.put("/", async function (request, response) {
+memberRouter.put("/", cookieJwtAuth ,async function (request, response) {
   console.log(request.body);
 
   let { id, name, description, tagIds, image } = request.body;
@@ -64,7 +65,7 @@ memberRouter.put("/", async function (request, response) {
   response.status(200).json(newMember);
 });
 
-memberRouter.delete("/:id", async function (request, response) {
+memberRouter.delete("/:id", cookieJwtAuth , async function (request, response) {
   console.log(request.params.id);
 
   if (!validateId(request.params.id)) {

@@ -2,6 +2,8 @@ import jwt from "jsonwebtoken";
 import type { RequestHandler } from "express";
 
 export const cookieJwtAuth: RequestHandler = (req, res, next) => {
+  console.log(req.cookies);
+    
   const token = req.cookies.token;
 
   try {

@@ -1,15 +1,22 @@
 import { Tag } from "@prisma/client";
 import * as express from "express";
-import { getAllTags, getTagById, postTag, editTag } from "./../repos/tag-repo";
+import { cookieJwtAuth } from "../middleware/cookie-jwt-auth";
+import {
+  getAllTags,
+  getTagById,
+  postTag,
+  editTag,
+  deleteTag,
+} from "./../repos/tag-repo";
 
 export const tagRouter = express.Router();
 
-tagRouter.get("/", async (req, res) => {
+tagRouter.get("/",cookieJwtAuth, async (req, res) => {
   const tags: Tag[] = await getAllTags();
   res.status(200).json(tags);
 });
 
-tagRouter.get("/:id", async (req, res) => {
+tagRouter.get("/:id", cookieJwtAuth ,async (req, res) => {
   const tagId = Number(req.params.id);
   if (tagId === undefined || tagId === null) {
     res.status(400).json({
@@ -22,7 +29,7 @@ tagRouter.get("/:id", async (req, res) => {
   res.status(200).json(tag);
 });
 
-tagRouter.post("/", async (req, res) => {
+tagRouter.post("/", cookieJwtAuth,  async (req, res) => {
   const { name, color } = req.body;
   if (color === undefined || color === null) {
     res.status(400).json({
@@ -40,7 +47,7 @@ tagRouter.post("/", async (req, res) => {
   res.status(200).json(tag);
 });
 
-tagRouter.put("/:id", async (req, res) => {
+tagRouter.put("/:id", cookieJwtAuth , async (req, res) => {
   const tagId = Number(req.params.id);
   if (tagId === undefined || tagId === null) {
     res.status(400).json({
@@ -59,6 +66,21 @@ tagRouter.put("/:id", async (req, res) => {
   }
   const tag = await editTag(tagId, name, color);
   res.status(200).json(tag);
+});
+
+tagRouter.delete("/:id", cookieJwtAuth ,async (req, res) => {
+  const tagId = Number(req.params.id);
+  if (tagId === undefined || tagId === null) {
+    res.status(400).json({
+      message: "Invalid tag id",
+      tagId: tagId,
+    });
+    return;
+  }
+
+  const deletedTag = await deleteTag(tagId);
+  res.status(200).json(deletedTag);
+  return;
 });
 
 function tagValidation(name: any, color: any) {

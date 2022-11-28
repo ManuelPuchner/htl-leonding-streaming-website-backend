@@ -105,23 +105,3 @@ export async function deleteMember(id: number): Promise<Member> {
 
   return member;
 }
-
-async function addTagToMember(tagIds: number[]): Promise<Tag[]> {
-  console.log(tagIds);
-
-  let result: Tag[] = [];
-  for (let i = 0; i < tagIds.length; i++) {
-    {
-      if (!checkIfTagExists(tagIds[i])) {
-        return null;
-      } else {
-        result.push(await getTagById(tagIds[i]));
-      }
-      console.log(tagIds[i]);
-    }
-
-    console.log(result);
-
-    return result;
-  }
-}

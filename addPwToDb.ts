@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { PollingWatchKind } from "typescript";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
@@ -8,6 +8,17 @@ const pw = process.argv[2];
 async function main() {
     const generatedPw = await prisma.adminPassword.create({
         data: {
-            password: pw,
+            password: await bcrypt.hash(pw, 10),
         },
-    })};
+    })
+};
+
+async function logPws() {
+    const pws = await prisma.adminPassword.findMany();
+    console.log(pws);
+}
+
+if(pw)
+    main();
+else 
+    logPws();
