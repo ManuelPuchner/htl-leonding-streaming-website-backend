@@ -4,7 +4,11 @@ import prisma from "../prisma";
 import { checkIfTagExists, getTagById } from "./tag-repo";
 
 export async function getAllMembers(): Promise<Member[]> {
-  let members = await prisma.member.findMany();
+  let members = await prisma.member.findMany({
+    include: {
+      tags: true,
+    },
+  });
 
   return members;
 }
@@ -13,6 +17,9 @@ export async function getMemberById(id: number): Promise<Member> {
   let member = await prisma.member.findFirst({
     where: {
       id: id,
+    },
+    include: {
+      tags: true,
     },
   });
 
@@ -25,13 +32,10 @@ export async function createMember(
   tagIds: number[],
   image: string
 ): Promise<Member> {
-
-  for(const tagId of tagIds) {
-    
-    if(!await checkIfTagExists(tagId)){
-      throw new Error( tagId + " does not exist");
+  for (const tagId of tagIds) {
+    if (!(await checkIfTagExists(tagId))) {
+      throw new Error(tagId + " does not exist");
     }
-
   }
 
   let member = await prisma.member.create({
@@ -39,17 +43,17 @@ export async function createMember(
       name: name,
       description: description,
       tags: {
-        connect: 
-          tagIds.map(tagId => {
-            return {
-              id: tagId,
-            }})
-          },
+        connect: tagIds.map((tagId) => {
+          return {
+            id: tagId,
+          };
+        }),
+      },
       image: image,
     },
     include: {
       tags: true,
-    }
+    },
   });
 
   return member;
@@ -62,29 +66,31 @@ export async function editMember(
   tagIds: number[],
   image: string
 ): Promise<Member> {
-  for(const tagId of tagIds) {
-    
-    if(await checkIfTagExists(tagId)){
+  for (const tagId of tagIds) {
+    if (!(await checkIfTagExists(tagId))) {
       return null;
     }
-
   }
 
   let member = await prisma.member.update({
     where: {
       id: id,
     },
-    
+
     data: {
       name: name,
       description: description,
       tags: {
-        connect: tagIds.map(tagId => {
+        connect: tagIds.map((tagId) => {
           return {
             id: tagId,
-          }})
+          };
+        }),
       },
       image: image,
+    },
+    include: {
+      tags: true,
     },
   });
   return member;
@@ -102,7 +108,7 @@ export async function deleteMember(id: number): Promise<Member> {
 
 async function addTagToMember(tagIds: number[]): Promise<Tag[]> {
   console.log(tagIds);
-  
+
   let result: Tag[] = [];
   for (let i = 0; i < tagIds.length; i++) {
     {
@@ -115,7 +121,7 @@ async function addTagToMember(tagIds: number[]): Promise<Tag[]> {
     }
 
     console.log(result);
-    
+
     return result;
   }
 }

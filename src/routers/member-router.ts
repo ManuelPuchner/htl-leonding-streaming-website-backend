@@ -26,80 +26,99 @@ memberRouter.get("/:id", async function (request, response) {
 });
 
 memberRouter.post("/", async function (request, response) {
-  const { name, description, tagsIds, image } = request.body;
-  console.log(name, description, tagsIds, image);
-  if (
-    typeof name !== "string" ||
-    name === undefined ||
-    (name.trim().length === 0 && description === undefined) ||
-    description.trim().length === 0
-  ) {
-    response.sendStatus(400);
-    return;
-  }
-  if(tagsIds === undefined){
-    response.sendStatus(400);
-    return;
+  const { name, description, tagIds, image } = request.body;
+  console.log(name, description, tagIds, image);
+
+  if (!validateMember(name, description, tagIds, image)) {
+    response.status(405).send("Invalid member");
   }
 
-  for (const tag of tagsIds) {
-    if (typeof tag !== "number" || tag === undefined) {
-      console.log("is NaN", tag);
-      response.sendStatus(400);
-      return;
-    }
-  }
-
-  let newMember: Member = null
+  let newMember: Member = null;
   try {
-    newMember = await createMember(name, description, tagsIds, image);
+    newMember = await createMember(name, description, tagIds, image);
   } catch (error) {
     response.status(405).send("invalid tag" + error.message);
   }
-  
+
   response.status(200).json(newMember);
 });
 
-memberRouter.put("/:id", async function (request, response) {
-  const id: number = Number(request.params);
-  if (id === undefined) {
-    response.sendStatus(400);
-    return;
-  }
-  const { name, description, tags, image } = request.body;
-  if (
-    typeof name !== "string" ||
-    name === undefined ||
-    (name.trim().length === 0 && description === undefined) ||
-    description.trim().length === 0
-  ) {
-    response.sendStatus(400);
-    return;
+memberRouter.put("/", async function (request, response) {
+  console.log(request.body);
+
+  let { id, name, description, tagIds, image } = request.body;
+  console.log(id, name, description, tagIds, image);
+  if (!validateMember(name, description, tagIds, image) || !validateId(id)) {
+    response.status(405).send("Invalid member");
   }
 
-  for (const tag of tags) {
-    if (typeof tag !== "number" || tag !== undefined) {
-      response.sendStatus(400);
-      return;
-    }
-  }
-
-  let newMember: Member = null
+  id = parseInt(id);
+  let newMember: Member = null;
   try {
-    newMember = await editMember(id, name, description, tags, image);
+    newMember = await editMember(id, name, description, tagIds, image);
   } catch (error) {
     response.status(405).send("invalid tag" + error.message);
   }
-  
+
   response.status(200).json(newMember);
 });
 
 memberRouter.delete("/:id", async function (request, response) {
-  const id: number = Number(request.params);
-  if (id === undefined) {
-    response.sendStatus(400);
+  console.log(request.params.id);
+
+  if (!validateId(request.params.id)) {
+    response.status(405).send("Invalid id");
     return;
   }
+
+  let id: number = parseInt(request.params.id);
   const deletedmember: Member = await deleteMember(id);
   response.status(200).json(deletedmember);
 });
+
+function validateMember(
+  name: any,
+  description: any,
+  tags: any,
+  image: any
+): boolean {
+  if (
+    typeof name !== "string" ||
+    name === undefined ||
+    (name.trim().length === 0 && description === undefined) ||
+    description.trim().length === 0 ||
+    (typeof description !== "string" && image === undefined) ||
+    image.trim().length === 0 ||
+    typeof image !== "string"
+  ) {
+    console.log("name, description or image is invalid");
+
+    return false;
+  }
+  if (tags === undefined) {
+    console.log("tags is undefined");
+
+    return false;
+  }
+  for (const tag of tags) {
+    if (typeof tag !== "number" || tag === undefined) {
+      console.log("is NaN", tag);
+      return;
+    }
+  }
+  return true;
+}
+
+function validateId(id: any): boolean {
+  if (id === undefined || id === null) {
+    console.log("id is invalid");
+
+    return false;
+  }
+  if (isNaN(Number(id))) {
+    console.log("id is NaN");
+
+    return false;
+  }
+  return true;
+}

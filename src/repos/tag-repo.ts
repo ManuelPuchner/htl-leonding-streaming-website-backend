@@ -31,7 +31,7 @@ export async function postTag(name: string, color: string): Promise<Tag> {
   return tag;
 }
 
-export function editTag(id: number, name: string ,color: string){
+export function editTag(id: number, name: string, color: string) {
   const tag: Promise<Tag> = prisma.tag.update({
     where: {
       id: id,
@@ -58,13 +58,14 @@ export async function deleteTag(id: number): Promise<Tag> {
 }
 
 export async function checkIfTagExists(id: number): Promise<boolean> {
-  console.log(!!prisma.tag.findFirst({
-    where: {
-      id: id,
-    },
-  })
+  console.log(
+    !!prisma.tag.findFirst({
+      where: {
+        id: id,
+      },
+    })
   );
-  
+
   return !!prisma.tag.findFirst({
     where: {
       id: id,

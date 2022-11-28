@@ -6,7 +6,7 @@ import { cookieJwtAuth } from "../middleware/cookie-jwt-auth";
 
 export const adminRouter = express.Router();
 
-adminRouter.post("/", cookieJwtAuth, (req, res) => {
+adminRouter.post("/", (req, res) => {
   {
     const password = req.params;
     if (password === undefined || typeof password !== "string") {
