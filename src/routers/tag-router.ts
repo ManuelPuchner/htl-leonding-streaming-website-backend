@@ -47,8 +47,8 @@ tagRouter.post("/", cookieJwtAuth,  async (req, res) => {
   res.status(200).json(tag);
 });
 
-tagRouter.put("/:id", cookieJwtAuth , async (req, res) => {
-  const tagId = Number(req.params.id);
+tagRouter.put("/", cookieJwtAuth , async (req, res) => {
+  const tagId = Number(req.body.id);
   if (tagId === undefined || tagId === null) {
     res.status(400).json({
       message: "Invalid tag id",
@@ -84,13 +84,18 @@ tagRouter.delete("/:id", cookieJwtAuth ,async (req, res) => {
 });
 
 function tagValidation(name: any, color: any) {
-  return (
-    name === undefined ||
-    name === null ||
-    typeof name !== "string" ||
-    (name.trim().length === 0 && color === undefined) ||
-    color === null ||
-    typeof color !== "string" ||
-    color.trim().length === 0
-  );
+    if(name === undefined ||
+      typeof name !== "string" ||
+      name.trim().length === 0){
+        return false;
+      }
+
+    if(color === undefined ||
+      color === null ||
+      typeof color !== "string" ||
+      color.trim().length === 0){
+        return false;
+      }
+  
+  return true;
 }
