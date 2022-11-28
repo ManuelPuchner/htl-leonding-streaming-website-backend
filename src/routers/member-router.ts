@@ -50,6 +50,7 @@ memberRouter.put("/", async function (request, response) {
   console.log(id, name, description, tagIds, image);
   if (!validateMember(name, description, tagIds, image) || !validateId(id)) {
     response.status(405).send("Invalid member");
+    return;
   }
 
   id = parseInt(id);
