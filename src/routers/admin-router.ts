@@ -25,6 +25,7 @@ adminRouter.post("/login", (req, res) => {
     });
 
     res.cookie("token", token, {
+      sameSite: "strict",
       // httpOnly: true,
       //TODO: secure: true later on
       //maxAge: 1000000
