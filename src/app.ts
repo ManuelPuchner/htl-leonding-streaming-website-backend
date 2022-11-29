@@ -20,7 +20,7 @@ app.use(
   express.static(
     join(
       __dirname,
-      "../../htl-leonding-streaming-website-frontend/dist/streaming-frontend"
+      "../../streaming-frontend/dist/streaming-frontend"
     )
   )
 );

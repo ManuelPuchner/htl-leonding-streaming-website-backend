@@ -11,12 +11,12 @@ import {
 export const memberRouter = express.Router();
 
 // return all tasks
-memberRouter.get("/", cookieJwtAuth,async function (request, response) {
+memberRouter.get("/", async function (request, response) {
   const mebers: Member[] = await getAllMembers();
   response.status(200).json(mebers);
 });
 
-memberRouter.get("/:id", cookieJwtAuth ,async function (request, response) {
+memberRouter.get("/:id", async function (request, response) {
   const id: number = Number(request.params.id);
   const member: Member | undefined = await getMemberById(id);
   if (member === undefined) {

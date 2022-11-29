@@ -11,7 +11,7 @@ import {
 
 export const tagRouter = express.Router();
 
-tagRouter.get("/",cookieJwtAuth, async (req, res) => {
+tagRouter.get("/", async (req, res) => {
   const tags: Tag[] = await getAllTags();
   res.status(200).json(tags);
 });

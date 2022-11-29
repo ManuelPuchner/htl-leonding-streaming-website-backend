@@ -6,7 +6,7 @@ import { cookieJwtAuth } from "../middleware/cookie-jwt-auth";
 
 export const adminRouter = express.Router();
 
-adminRouter.post("/login",(req, res) => {
+adminRouter.post("/login", (req, res) => {
   {
     const password = req.body.password;
     if (password === undefined || typeof password !== "string") {
@@ -25,14 +25,14 @@ adminRouter.post("/login",(req, res) => {
     });
 
     res.cookie("token", token, {
-      httpOnly: true,
+      // httpOnly: true,
+      //TODO: secure: true later on
+      //maxAge: 1000000
+      // signed: true
     });
 
     res.status(200).json({
       message: "Success!",
-      //TODO: secure: true later on
-      //maxAge: 1000000
-      // signed: true
     });
 
     return res.redirect("/admin");
