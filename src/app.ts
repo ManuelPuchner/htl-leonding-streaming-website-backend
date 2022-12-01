@@ -18,19 +18,14 @@ app.use("/api/member", memberRouter);
 app.use("/api/tag", tagRouter);
 app.use(
   express.static(
-    join(
-      __dirname,
-      "../../streaming-frontend/dist/streaming-frontend"
-    )
+    join(__dirname, "../../streaming-frontend/dist/streaming-frontend")
   )
 );
 
-app.get("/", (req, res) => {
-  res.status(200).json({ message: "Hello World" });
-});
-
-app.get("/test", (req, res) => {
-  res.status(200).json({ message: "Hello test" });
+app.get("/*", (req, res) => {
+  res.sendFile(
+    join(__dirname, "../../streaming-frontend/dist/streaming-frontend/index.html")
+  );
 });
 
 app.listen(PORT, () => console.log(`Running on port ${PORT}`));

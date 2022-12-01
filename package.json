@@ -1,8 +1,9 @@
 {
   "scripts": {
-    "start": "ts-node src/app.ts",
+    "start": "node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --watch src --exec ts-node src/app.ts"
+    "dev": "nodemon --watch src --exec ts-node src/app.ts",
+    "build": "tsc"
   },
   "dependencies": {
     "@prisma/client": "^4.6.1",

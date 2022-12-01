@@ -35,8 +35,6 @@ adminRouter.post("/login", (req, res) => {
     res.status(200).json({
       message: "Success!",
     });
-
-    return res.redirect("/admin");
   }
 });
 
