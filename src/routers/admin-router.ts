@@ -38,7 +38,13 @@ adminRouter.post("/login", (req, res) => {
   }
 });
 
-async function login(userPassword: string) {
-  const password: AdminPassword = await prisma.adminPassword.findFirst();
-  return await bcrypt.compare(password.password, userPassword);
+async function login(userPassword: string): Promise<boolean> {
+  const passwords: AdminPassword[] = await prisma.adminPassword.findMany();
+  for (const password of passwords) {
+    let result = await bcrypt.compare(userPassword, password.password);
+    if (result) {
+      return true;
+    }
+  }
+  return false;
 }
