@@ -39,23 +39,3 @@ spec:
       name: http
   selector:
     app: streaming-backend
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: streaming-backend
-  namespace: student-m-puchner
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-spec:
-  rules:
-    - host: student.cloud.htl-leonding.ac.at
-      http:
-        paths:
-          - path: /m.puchner/streaming/api(/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: streaming-backend-svc
-                port:
-                  number: 80
