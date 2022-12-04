@@ -15,6 +15,8 @@ COPY . .
 
 COPY tsconfig.json ./
 
+ENV DATABASE_URL=$DATABASE_URL
+ENV AUTH_SECRET_KEY=$AUTH_SECRET_KEY
 
 RUN npx prisma generate
 RUN npm run build
