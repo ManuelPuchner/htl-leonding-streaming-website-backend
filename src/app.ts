@@ -10,12 +10,14 @@ const app = express();
 
 const PORT = 3000;
 
+const BASE_URL = process.env.NODE_ENV == "production" ? "" : "/api";
+
 app.use(express.json());
 app.use(cookieParser());
-app.use("/api/admin", adminRouter);
-app.use("/api/member", memberRouter);
-// app.use("/api/image", imageRouter);
-app.use("/api/tag", tagRouter);
+app.use(`${BASE_URL}/admin`, adminRouter);
+app.use(`${BASE_URL}/member`, memberRouter);
+// app.use(`${BASE_URL}/image`, imageRouter);
+app.use(`${BASE_URL}api/tag`, tagRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

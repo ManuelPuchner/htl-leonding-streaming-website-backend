@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "node dist/app.js",
+    "start-local": "node dist/app.js",
+    "start": "NODE_ENV=production node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --watch src --exec ts-node src/app.ts",
     "build": "tsc"
