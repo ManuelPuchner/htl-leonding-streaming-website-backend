@@ -1,4 +1,4 @@
-const PrismaClient = require('@prisma/client').PrismaClient;
+const PrismaClient = require('./generated/client').PrismaClient;
 const bcrypt = require('bcrypt');
 
 const prisma = new PrismaClient();
