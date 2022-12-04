@@ -16,16 +16,9 @@ app.use("/api/admin", adminRouter);
 app.use("/api/member", memberRouter);
 // app.use("/api/image", imageRouter);
 app.use("/api/tag", tagRouter);
-app.use(
-  express.static(
-    join(__dirname, "../../streaming-frontend/dist/streaming-frontend")
-  )
-);
 
-app.get("/*", (req, res) => {
-  res.sendFile(
-    join(__dirname, "../../streaming-frontend/dist/streaming-frontend/index.html")
-  );
-});
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+})
 
-app.listen(PORT, () => console.log(`Running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Running on port ${PORT}, http://localhost:${PORT}`));
