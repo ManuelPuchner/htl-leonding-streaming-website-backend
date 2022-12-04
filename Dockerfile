@@ -9,7 +9,7 @@ COPY tsconfig.json ./
 
 RUN npm ci
 
-COPY dist/ ./dist/
+COPY . .
 
 COPY .tsconfig.json ./
 
