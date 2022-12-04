@@ -17,7 +17,7 @@ spec:
         - name: streaming-backend
           image: ghcr.io/manuelpuchner/streaming-htl-backend:latest
           volumeMounts:
-            - mountPath: /app/public/uploads
+            - mountPath: /app/persistent
               name: streaming-backend-files
           ports:
             - containerPort: 3000
