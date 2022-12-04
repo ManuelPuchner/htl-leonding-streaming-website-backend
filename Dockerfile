@@ -19,6 +19,7 @@ ENV DATABASE_URL=$DATABASE_URL
 ENV AUTH_SECRET_KEY=$AUTH_SECRET_KEY
 
 RUN npx prisma generate
+RUN npx prisma migrate deploy
 RUN npm run build
 
 EXPOSE 3000
