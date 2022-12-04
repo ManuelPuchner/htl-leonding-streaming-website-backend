@@ -1,5 +1,4 @@
-import { Member, Tag } from "@prisma/client";
-import { json } from "stream/consumers";
+import type { Member, Tag } from "../../generated/client";
 import prisma from "../prisma";
 import { checkIfTagExists, getTagById } from "./tag-repo";
 

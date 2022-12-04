@@ -1,4 +1,4 @@
-import { Tag } from "@prisma/client";
+import { Tag } from "../../generated/client";
 import * as express from "express";
 import { cookieJwtAuth } from "../middleware/cookie-jwt-auth";
 import {

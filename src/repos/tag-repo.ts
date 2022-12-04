@@ -1,6 +1,5 @@
-import { Tag } from "@prisma/client";
+import { Tag } from "../../generated/client";
 import prisma from "../prisma";
-import { Member } from "@prisma/client";
 
 export async function getAllTags(): Promise<Tag[]> {
   const tags = await prisma.tag.findMany();

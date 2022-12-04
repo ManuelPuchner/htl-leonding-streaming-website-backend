@@ -1,4 +1,4 @@
-import { Member } from "@prisma/client";
+import { Member } from "../../generated/client";
 import express from "express";
 import { cookieJwtAuth } from "../middleware/cookie-jwt-auth";
 import {
