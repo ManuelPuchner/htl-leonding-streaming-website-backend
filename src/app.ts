@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(`${BASE_URL}/admin`, adminRouter);
 app.use(`${BASE_URL}/member`, memberRouter);
 // app.use(`${BASE_URL}/image`, imageRouter);
-app.use(`${BASE_URL}api/tag`, tagRouter);
+app.use(`${BASE_URL}/tag`, tagRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
