@@ -23,4 +23,8 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 })
 
+app.get("/api/test", (req, res) => {
+  res.send("Hello World!");
+})
+
 app.listen(PORT, () => console.log(`Running on port ${PORT}, http://localhost:${PORT}`));
