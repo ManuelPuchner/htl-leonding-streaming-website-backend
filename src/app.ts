@@ -3,6 +3,7 @@ import { join } from "path";
 import dotenv from "dotenv";
 import { adminRouter, memberRouter, tagRouter, testRouter } from "./routers";
 import cookieParser from "cookie-parser";
+import cors from "cors"
 
 dotenv.config({ path: join(__dirname, "../.env") });
 
@@ -10,7 +11,12 @@ const app = express();
 
 const PORT = 3000;
 
-const BASE_URL = process.env.NODE_ENV == "production" ? "" : "/api";
+if(process.env.NODE_ENV == "development") {
+  app.use(cors({
+    credentials: true,
+    origin: "http://localhost:4200"
+  }))
+}
 
 app.use(express.json());
 app.use(cookieParser());
@@ -26,10 +32,4 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Running on port ${PORT}, http://localhost:${PORT}`);
-  console.log({
-    NODE_ENV: process.env.NODE_ENV,
-    DATABASE_URL: process.env.DATABASE_URL,
-    AUTH_SECRET_KEY: process.env.AUTH_SECRET_KEY,
-  });
-  
 });

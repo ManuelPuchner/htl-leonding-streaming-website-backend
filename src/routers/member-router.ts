@@ -28,8 +28,6 @@ memberRouter.get("/:id", async function (request, response) {
 
 memberRouter.post("/", cookieJwtAuth, async function (request, response) {
   const { name, description, tagIds, image } = request.body;
-  console.log(name, description, tagIds, image);
-  
   if (!validateMember(name, description, tagIds, image)) {
     response.status(400).send("Invalid member");
     return;
@@ -47,8 +45,6 @@ memberRouter.post("/", cookieJwtAuth, async function (request, response) {
 });
 
 memberRouter.put("/", cookieJwtAuth, async function (request, response) {
-  console.log(request.body);
-
   let { id, name, description, tagIds, image } = request.body;
   console.log(id, name, description, tagIds, image);
   if (!validateMember(name, description, tagIds, image) || !validateId(id)) {
@@ -68,8 +64,6 @@ memberRouter.put("/", cookieJwtAuth, async function (request, response) {
 });
 
 memberRouter.delete("/:id", cookieJwtAuth, async function (request, response) {
-  console.log(request.params.id);
-
   if (!validateId(request.params.id)) {
     response.status(405).send("Invalid id");
     return;
