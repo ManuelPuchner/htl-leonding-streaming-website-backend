@@ -1,5 +1,5 @@
 import { adminRouter } from "./admin-router";
-// import { imageRouter } from "./image-router";
+import { imageRouter } from "./image-router";
 import { memberRouter } from "./member-router";
 import { tagRouter } from "./tag-router";
 import { testRouter } from "./testRouter";
@@ -8,7 +8,7 @@ import { testRouter } from "./testRouter";
 //TODO: add TagRouter to routers
 export {
   adminRouter,
-  // imageRouter,
+  imageRouter,
   memberRouter,
   tagRouter,
   testRouter,

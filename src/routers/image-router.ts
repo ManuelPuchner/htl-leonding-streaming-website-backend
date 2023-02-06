@@ -1,50 +1,38 @@
-// import express from "express";
-// import multer from "multer";
-// import filenamify from "filenamify";
+import express from "express";
+import multer from "multer";
+import filenamify from "filenamify";
 
-// export const imageRouter = express.Router();
+export const imageRouter = express.Router();
 
-// const uploadFolderName = "../../public/images";
-// const IMG_FILE_SIZE = 1024 * 1024 * 10; // 10MB
+const uploadFolderName = "../../../htl-leonding-streaming-website-frontend/src/assets/images";
+const IMG_FILE_SIZE = 1024 * 1024 * 10; // 10MB
 
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, uploadFolderName);
-//   },
-//   filename: function (req, file, cb) {
-//     const uniqueSuffix =
-//       new Date().toISOString().replace(/:|\./g, "-") +
-//       "_" +
-//       Math.round(Math.random() * 1e9);
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, uploadFolderName);
+  },
+ });
 
-//     const filename = `${uniqueSuffix}_${filenamify(file.originalname, {
-//       replacement: "-",
-//     }).replace(/ /g, "-")}`;
+const upload = multer({
+  limits: {
+    fileSize: IMG_FILE_SIZE,
+  },
+  storage: storage,
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      return cb(new Error("Please upload a valid image file"));
+    }
+    cb(null, true);
+  },
+});
 
-//     cb(null, file.filename);
-//   },
-// });
+imageRouter.post("/", upload.single("image"), async (req, res) => {
+  const file = req.file;
+  if (!file) {
+    res.sendStatus(400), "No file uploaded";
+    return;
+  }
+  const imagePathClient = req.file.path.replace("public", "");
 
-// const upload = multer({
-//   limits: {
-//     fileSize: IMG_FILE_SIZE,
-//   },
-//   storage: storage,
-//   fileFilter: (req, file, cb) => {
-//     const acceptFile: boolean = ["image/jpeg", "image/png"].includes(
-//       file.mimetype
-//     );
-//     cb(null, acceptFile);
-//   },
-// });
-
-// imageRouter.post("/", upload.single("image"), async (req, res) => {
-//   const file = req.file;
-//   if (!file) {
-//     res.sendStatus(400), "No file uploaded";
-//     return;
-//   }
-//   const imagePathClient = req.file.path.replace("public", "");
-
-//   res.status(200).json({ message: "success", path: imagePathClient });
-// });
+  res.status(200).json({ message: "success", path: imagePathClient });
+});

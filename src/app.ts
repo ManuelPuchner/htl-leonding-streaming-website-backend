@@ -1,7 +1,7 @@
 import express from "express";
 import { join } from "path";
 import dotenv from "dotenv";
-import { adminRouter, memberRouter, tagRouter, testRouter } from "./routers";
+import { adminRouter, memberRouter, tagRouter, testRouter, imageRouter } from "./routers";
 import cookieParser from "cookie-parser";
 import cors from "cors"
 
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(`/api/admin`, adminRouter);
 app.use("/api/member", memberRouter);
-// app.use("/api/image", imageRouter);
+app.use("/api/image", imageRouter);
 app.use("/api/tag", tagRouter);
 app.use("/api/test", testRouter);
 
