@@ -5,7 +5,7 @@ import path from "path";
 
 export const imageRouter = express.Router();
 
-const uploadFolderName = path.join(__dirname, "../../images");
+const uploadFolderName = path.join(__dirname, "../../persistent/images");
 const IMG_FILE_SIZE = 1024 * 1024 * 10; // 10MB
 
 const storage = multer.diskStorage({
